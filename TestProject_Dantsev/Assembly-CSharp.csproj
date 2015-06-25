@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BoardManager.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\TileClick.cs" />
      <Compile Include="Assets\Scripts\TileProperties.cs" />
  <Reference Include="UnityEngine.UI">

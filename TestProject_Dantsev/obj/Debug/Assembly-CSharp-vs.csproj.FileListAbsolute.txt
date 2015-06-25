@@ -1,0 +1,13 @@
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Assembly-CSharp.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\UnityEditor.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\UnityEngine.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\UnityEngine.UI.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Mono.Cecil.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Unity.SerializationLogic.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Unity.DataContract.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\Programming\Dantsev\TestProject_Dantsev\Temp\bin\Debug\Unity.CecilTools.dll
+D:\Programming\Dantsev\TestProject_Dantsev\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+D:\Programming\Dantsev\TestProject_Dantsev\obj\Debug\Assembly-CSharp.dll
+D:\Programming\Dantsev\TestProject_Dantsev\obj\Debug\Assembly-CSharp.pdb
