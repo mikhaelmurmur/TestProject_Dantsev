@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class BoardManager : MonoBehaviour
 {
@@ -462,7 +464,8 @@ public class BoardManager : MonoBehaviour
 
                     if (place_found)
                     {
-                        board_items[i][result_row].transform.position = new Vector3(size * i, size * j, 0f);
+                        board_items[i][result_row].transform.DOMove(new Vector3(size * i, size * j, 0f), 0.5f);
+                       //board_items[i][result_row].transform.position = new Vector3(size * i, size * j, 0f);
                         board_items[i][result_row].GetComponent<TileProperties>().row = j;
                         board_items[i][j] = board_items[i][result_row];
                         board_items[i][result_row] = null;
@@ -483,7 +486,10 @@ public class BoardManager : MonoBehaviour
                 if (board_items[i][j] == null)
                 {
                     board_items[i][j] = GetRandomTile();
-                    board_items[i][j].transform.position = new Vector3(size * i, size * j, 0f);
+
+                    board_items[i][j].transform.position = new Vector3(size * i, size * columns, 0f);
+                    board_items[i][j].transform.DOMove(new Vector3(size * i, size * j, 0f), 0.5f);
+                    //board_items[i][j].transform.position = new Vector3(size * i, size * j, 0f);
                     board_items[i][j].GetComponent<TileProperties>().row = j;
                     board_items[i][j].GetComponent<TileProperties>().column = i;
                 }
