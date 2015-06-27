@@ -29,3 +29,4 @@ obj/
 *.user
 *.booproj
 Library/*
+/TestProject_Dantsev/Library
