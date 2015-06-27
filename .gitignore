@@ -28,4 +28,4 @@ obj/
 *.svd
 *.user
 *.booproj
-Library
+Library/*
