@@ -4,13 +4,6 @@ using System.Collections;
 public class TileClick : MonoBehaviour 
 {
 
-	void Start () 
-    {
-	
-	}
-
-
-
     void OnMouseOver()
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().is_active)

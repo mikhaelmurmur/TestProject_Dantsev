@@ -8,26 +8,14 @@ public class BombScript : MonoBehaviour
     [SerializeField]
     GameObject bomb = null;
     GameObject bomb_obj = null;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    
 
     public bool ActiveBomb()
     {
-        if (bomb_obj != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-		// why not return bomb_obj != null;
+        
+        return bomb_obj != null;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().is_active)

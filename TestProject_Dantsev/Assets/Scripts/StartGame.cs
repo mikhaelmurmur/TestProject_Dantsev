@@ -8,7 +8,7 @@ public class StartGame : MonoBehaviour {
     Button start_button = null;
     [SerializeField]
     Button exit_button = null;
-	// Use this for initialization
+
 	void Start ()
     {
         start_button.onClick.AddListener(() => { StartLevel(); });

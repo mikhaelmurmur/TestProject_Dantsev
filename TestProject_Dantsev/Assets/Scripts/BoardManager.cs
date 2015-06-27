@@ -53,49 +53,44 @@ public class BoardManager : MonoBehaviour
         return result;
     }
 
-	// why not recursion?
-    public bool DestroyByBomb(int col, int row)//destroy neraby tiles
+    // why not recursion?
+    public bool DestroyByBomb(int col, int row)//destroy nearby tiles
     {
         bool result = false;
-        int count = 0;
         List<GameObject> list_to_destroy = new List<GameObject>();
         if ((col > -1) && (col < columns) && (row > -1) && (row < rows))
         {
             Debug.Log(col.ToString());
             Debug.Log(row.ToString());
             list_to_destroy.Add(board_items[col][row]);
-            count++;
-			// It really looks horrible :)
+            // It really looks horrible :)
+            #region
             if ((col > 0) && (col < columns - 1))
             {
                 list_to_destroy.Add(board_items[col + 1][row]);
                 list_to_destroy.Add(board_items[col - 1][row]);
-                count += 2;
                 if ((row > 0) && (row < rows - 1))
                 {
                     list_to_destroy.Add(board_items[col][row + 1]);
                     list_to_destroy.Add(board_items[col][row - 1]);
-                   
+
                     list_to_destroy.Add(board_items[col + 1][row + 1]);
                     list_to_destroy.Add(board_items[col - 1][row + 1]);
                     list_to_destroy.Add(board_items[col + 1][row - 1]);
                     list_to_destroy.Add(board_items[col - 1][row - 1]);
-					// why not count added elements to the list_to_destroy List?
-                    count += 6;
+                    // why not count added elements to the list_to_destroy List?
                 }
                 if (row == 0)
                 {
                     list_to_destroy.Add(board_items[col][row + 1]);
                     list_to_destroy.Add(board_items[col + 1][row + 1]);
                     list_to_destroy.Add(board_items[col - 1][row + 1]);
-                    count += 3;
                 }
                 if (row == rows - 1)
                 {
                     list_to_destroy.Add(board_items[col][rows - 1]);
                     list_to_destroy.Add(board_items[col + 1][row - 1]);
                     list_to_destroy.Add(board_items[col - 1][row - 1]);
-                    count += 3;
                 }
             }
             if (col == 0)
@@ -108,25 +103,21 @@ public class BoardManager : MonoBehaviour
 
                     list_to_destroy.Add(board_items[col + 1][row + 1]);
                     list_to_destroy.Add(board_items[col + 1][row - 1]);
-                    count += 4;
                 }
                 if (row == 0)
                 {
                     list_to_destroy.Add(board_items[col][row + 1]);
                     list_to_destroy.Add(board_items[col + 1][row + 1]);
-                    count += 2;
                 }
                 if (row == rows - 1)
                 {
                     list_to_destroy.Add(board_items[col][rows - 1]);
                     list_to_destroy.Add(board_items[col + 1][row - 1]);
-                    count += 2;
                 }
             }
             if (col == columns - 1)
             {
                 list_to_destroy.Add(board_items[col - 1][row]);
-                count++;
                 if ((row > 0) && (row < rows - 1))
                 {
                     list_to_destroy.Add(board_items[col][row + 1]);
@@ -134,25 +125,23 @@ public class BoardManager : MonoBehaviour
 
                     list_to_destroy.Add(board_items[col - 1][row + 1]);
                     list_to_destroy.Add(board_items[col - 1][row - 1]);
-                    count += 4;
                 }
                 if (row == 0)
                 {
                     list_to_destroy.Add(board_items[col][row + 1]);
                     list_to_destroy.Add(board_items[col - 1][row + 1]);
-                    count += 2;
                 }
                 if (row == rows - 1)
                 {
                     list_to_destroy.Add(board_items[col][rows - 1]);
                     list_to_destroy.Add(board_items[col - 1][row - 1]);
-                    count += 2;
                 }
             }
+            #endregion
             Destroy(list_to_destroy);
             Movement();
             FillUpWithRandom();
-            AssignPoint(count);
+            AssignPoint(list_to_destroy.Count);
             result = true;
         }
         return result;
@@ -173,18 +162,8 @@ public class BoardManager : MonoBehaviour
         time_per_level--;
     }
 
-    void Start()
+    void InItBoard()
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().is_active = true;
-        InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
-        PopupExit.onClick.AddListener(() => { ExitGame(); });
-        PopupRestart.onClick.AddListener(() => { RestartGame(); });
-        exit_button.onClick.AddListener(() => { ExitGame(); });
-        time_per_level = Math.Max(GameObject.Find("GameManager").GetComponent<GameManager>().level - 3, 0) + 6;
-        level_text.text = "Level: " + GameObject.Find("GameManager").GetComponent<GameManager>().level;
-
-
-		// why not a separate function ? 
         for (int i = 0; i < columns; i++)
         {
             board_items.Add(new List<GameObject>());
@@ -198,9 +177,24 @@ public class BoardManager : MonoBehaviour
             }
             score_text.text = "Score: 0";
             level_left_text.text = "Points left: " + GameObject.Find("GameManager").GetComponent<GameManager>().PointsLeft().ToString();
-            total_score.text = "Total score: "+ GameObject.Find("GameManager").GetComponent<GameManager>().total_points;
+            total_score.text = "Total score: " + GameObject.Find("GameManager").GetComponent<GameManager>().total_points;
             SetBombCount(GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges);
         }
+    }
+
+    void Start()
+    {
+        GameObject.Find("GameManager").GetComponent<GameManager>().is_active = true;
+        InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
+        PopupExit.onClick.AddListener(() => { ExitGame(); });
+        PopupRestart.onClick.AddListener(() => { RestartGame(); });
+        exit_button.onClick.AddListener(() => { ExitGame(); });
+        time_per_level = Math.Max(GameObject.Find("GameManager").GetComponent<GameManager>().level - 3, 0) + 6;
+        level_text.text = "Level: " + GameObject.Find("GameManager").GetComponent<GameManager>().level;
+
+
+        // why not a separate function ? 
+        InItBoard();
     }
 
 
@@ -216,17 +210,18 @@ public class BoardManager : MonoBehaviour
         go_to_check.Add(tile_clicked);
         int col, row;
         while (go_to_check.Count > 0)
-        {	
-			// cache
-            col = go_to_check[0].GetComponent<TileProperties>().column;
-            row = go_to_check[0].GetComponent<TileProperties>().row;
+        {
+            // cache
+            TileProperties tile_prop = go_to_check[0].GetComponent<TileProperties>();
+            col = tile_prop.column;
+            row = tile_prop.row;
             //check the nearest tiles and add them to the lists, if they are not there and types of tyles 
             //are equal
             //then delete 0th element from the go_to_check list
 
             //ugly if here. do not look up there. GODS MUST BURN ME FOR IT.
 
-			// it is pretty ugly
+            // it is pretty ugly
             #region
             if ((col > 0) && (col < columns - 1))
             {
@@ -424,7 +419,6 @@ public class BoardManager : MonoBehaviour
         {
             to_destroy = false;
         }
-        //after this check if count>2 then out true
         return list_to_destroy;
     }
 
@@ -435,9 +429,6 @@ public class BoardManager : MonoBehaviour
 
     void Destroy(List<GameObject> lst_to_destroy)
     {
-        //destroy tiles
-        //move upper tiles down
-        //create new random tiles
         int col, row;
         foreach (GameObject tile in lst_to_destroy)
         {
@@ -452,7 +443,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < columns; i++)
         {
-            for (int j = 0; j < rows - 1; j++)
+            for (int j = 0; j < rows-1; j++)
             {
                 if (board_items[i][j] == null)
                 {
@@ -474,7 +465,6 @@ public class BoardManager : MonoBehaviour
                     if (place_found)
                     {
                         board_items[i][result_row].transform.DOMove(new Vector3(size * i, size * j, 0f), 0.5f);
-                       //board_items[i][result_row].transform.position = new Vector3(size * i, size * j, 0f);
                         board_items[i][result_row].GetComponent<TileProperties>().row = j;
                         board_items[i][j] = board_items[i][result_row];
                         board_items[i][result_row] = null;
@@ -492,22 +482,22 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < rows; j++)
             {
-				// why not cache a variable board_items[i][j]? 
-                if (board_items[i][j] == null)
+                // why not cache a variable board_items[i][j]? 
+                GameObject tile = board_items[i][j];
+                if (tile == null)
                 {
-                    board_items[i][j] = GetRandomTile();
+                    board_items[i][j] = tile = GetRandomTile();
 
-                    board_items[i][j].transform.position = new Vector3(size * i, size * columns, 0f);
-                    board_items[i][j].transform.DOMove(new Vector3(size * i, size * j, 0f), 0.5f);
-                    //board_items[i][j].transform.position = new Vector3(size * i, size * j, 0f);
-                    board_items[i][j].GetComponent<TileProperties>().row = j;
-                    board_items[i][j].GetComponent<TileProperties>().column = i;
+                    tile.transform.position = new Vector3(size * i, size * columns, 0f);
+                    tile.transform.DOMove(new Vector3(size * i, size * j, 0f), 0.5f);
+                    tile.GetComponent<TileProperties>().row = j;
+                    tile.GetComponent<TileProperties>().column = i;
                 }
             }
         }
     }
 
-    void AssignPoint(int count)//also as a parametr list.count
+    void AssignPoint(int count)
     {
         int sum = 100;
         count -= 3;
@@ -539,15 +529,16 @@ public class BoardManager : MonoBehaviour
     }
 
     void Update()
-    {	
-		// why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
-        if ((bomb_button.GetComponent<SpriteRenderer>().sprite == passive_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges > 0))
+    {
+        // why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
+        Sprite bomb_button_sprite = bomb_button.GetComponent<SpriteRenderer>().sprite;
+        if ((bomb_button_sprite == passive_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges > 0))
         {
-            bomb_button.GetComponent<SpriteRenderer>().sprite = active_bomb;
+            bomb_button_sprite = active_bomb;
         }
-        if ((bomb_button.GetComponent<SpriteRenderer>().sprite == active_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges == 0))
+        if ((bomb_button_sprite == active_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges == 0))
         {
-            bomb_button.GetComponent<SpriteRenderer>().sprite = passive_bomb;
+            bomb_button_sprite = passive_bomb;
         }
         if (time_per_level > 0)
         {

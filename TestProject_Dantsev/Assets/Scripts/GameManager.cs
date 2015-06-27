@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public int total_bombs = 0;
     [SerializeField]
     int points_per_bomb=500;
+    [SerializeField]
+    int points_per_level = 300;
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -18,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int PointsLeft()
     {
-        return level * 300 - points;
+        return level * points_per_level - points;
     }
 
     public void Restart()
@@ -39,9 +41,9 @@ public class GameManager : MonoBehaviour
             total_bombs++;
             bomb_charges++;
             GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(bomb_charges);
-        }
+        }   
 		// Why 300?
-        if (points >= level * 300)
+        if (points >= level * points_per_level)
         {
             level++;
             points = 0;

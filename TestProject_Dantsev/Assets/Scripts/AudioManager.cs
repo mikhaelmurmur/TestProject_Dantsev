@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
     AudioClip normal_music = null;
     [SerializeField]
     AudioClip bomb_music = null;
-	// Use this for initialization
+	
 	void Start () 
     {
         DontDestroyOnLoad(gameObject);
@@ -42,13 +42,4 @@ public class AudioManager : MonoBehaviour
         back_music_player.Play();
     }
 
-   
-
-    // why not delete this function?
-
-	// Update is called once per frame
-	void Update () 
-    {
-	
-	}
 }
