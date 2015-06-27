@@ -28,5 +28,4 @@ obj/
 *.svd
 *.user
 *.booproj
-Library/*
-/TestProject_Dantsev/Library
+/TestProject_Dantsev/Library/**
