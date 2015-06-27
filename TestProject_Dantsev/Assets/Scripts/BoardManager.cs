@@ -53,6 +53,7 @@ public class BoardManager : MonoBehaviour
         return result;
     }
 
+	// why not recursion?
     public bool DestroyByBomb(int col, int row)//destroy neraby tiles
     {
         bool result = false;
@@ -64,6 +65,7 @@ public class BoardManager : MonoBehaviour
             Debug.Log(row.ToString());
             list_to_destroy.Add(board_items[col][row]);
             count++;
+			// It really looks horrible :)
             if ((col > 0) && (col < columns - 1))
             {
                 list_to_destroy.Add(board_items[col + 1][row]);
@@ -78,6 +80,7 @@ public class BoardManager : MonoBehaviour
                     list_to_destroy.Add(board_items[col - 1][row + 1]);
                     list_to_destroy.Add(board_items[col + 1][row - 1]);
                     list_to_destroy.Add(board_items[col - 1][row - 1]);
+					// why not count added elements to the list_to_destroy List?
                     count += 6;
                 }
                 if (row == 0)
@@ -179,6 +182,9 @@ public class BoardManager : MonoBehaviour
         exit_button.onClick.AddListener(() => { ExitGame(); });
         time_per_level = Math.Max(GameObject.Find("GameManager").GetComponent<GameManager>().level - 3, 0) + 6;
         level_text.text = "Level: " + GameObject.Find("GameManager").GetComponent<GameManager>().level;
+
+
+		// why not a separate function ? 
         for (int i = 0; i < columns; i++)
         {
             board_items.Add(new List<GameObject>());
@@ -210,7 +216,8 @@ public class BoardManager : MonoBehaviour
         go_to_check.Add(tile_clicked);
         int col, row;
         while (go_to_check.Count > 0)
-        {
+        {	
+			// cache
             col = go_to_check[0].GetComponent<TileProperties>().column;
             row = go_to_check[0].GetComponent<TileProperties>().row;
             //check the nearest tiles and add them to the lists, if they are not there and types of tyles 
@@ -218,6 +225,8 @@ public class BoardManager : MonoBehaviour
             //then delete 0th element from the go_to_check list
 
             //ugly if here. do not look up there. GODS MUST BURN ME FOR IT.
+
+			// it is pretty ugly
             #region
             if ((col > 0) && (col < columns - 1))
             {
@@ -483,6 +492,7 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < rows; j++)
             {
+				// why not cache a variable board_items[i][j]? 
                 if (board_items[i][j] == null)
                 {
                     board_items[i][j] = GetRandomTile();
@@ -529,7 +539,8 @@ public class BoardManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {	
+		// why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
         if ((bomb_button.GetComponent<SpriteRenderer>().sprite == passive_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges > 0))
         {
             bomb_button.GetComponent<SpriteRenderer>().sprite = active_bomb;

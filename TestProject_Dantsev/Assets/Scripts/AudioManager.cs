@@ -44,7 +44,8 @@ public class AudioManager : MonoBehaviour
 
    
 
-   
+    // why not delete this function?
+
 	// Update is called once per frame
 	void Update () 
     {

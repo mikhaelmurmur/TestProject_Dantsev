@@ -24,6 +24,7 @@ public class BombScript : MonoBehaviour
         {
             return false;
         }
+		// why not return bomb_obj != null;
     }
 
     // Update is called once per frame
