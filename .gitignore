@@ -1,6 +1,6 @@
-/TestProject_Dantsev\Temp
-/TestProject_Dantsev\obj
-/TestProject_Dantsev\Library
+/Temp
+/obj
+/Library
 *.csproj
 *.unityproj
 *.sln
