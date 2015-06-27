@@ -29,3 +29,6 @@ obj/
 *.user
 *.booproj
 /TestProject_Dantsev/Library/**
+ShaderCache
+metadata
+ScriptAssemblies
