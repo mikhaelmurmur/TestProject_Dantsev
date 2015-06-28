@@ -28,8 +28,9 @@ public class BombScript : MonoBehaviour
                 {
                     Debug.Log(bomb_obj.transform.position.x);
                     Debug.Log(bomb_obj.transform.position.y);
-                    int col = Convert.ToInt32((bomb_obj.transform.position.x) / 3.5);
-                    int row = Convert.ToInt32((bomb_obj.transform.position.y) / 3.5);
+                    float size = GameObject.Find("BoardManager").GetComponent<BoardManager>().size;
+                    int col = Convert.ToInt32((bomb_obj.transform.position.x) / size);
+                    int row = Convert.ToInt32((bomb_obj.transform.position.y) / size);
                     if (GameObject.Find("BoardManager").GetComponent<BoardManager>().DestroyByBomb(col, row))
                     {
                         GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayBomb();

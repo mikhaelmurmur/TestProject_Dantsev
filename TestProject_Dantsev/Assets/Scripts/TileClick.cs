@@ -14,13 +14,9 @@ public class TileClick : MonoBehaviour
                 {
                     BoardManager bm = GameObject.Find("BoardManager").GetComponent<BoardManager>();
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayClick();
-                    if (bm.DestroyTiles(this.gameObject))
+                    if (!bm.DestroyTiles(this.gameObject))
                     {
-                        Debug.Log("Y");
-                    }
-                    else
-                    {
-                        Debug.Log("N");
+
                     }
 
                 }

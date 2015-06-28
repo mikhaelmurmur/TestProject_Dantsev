@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
             bomb_charges++;
             GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(bomb_charges);
         }   
-		// Why 300?
         if (points >= level * points_per_level)
         {
             level++;
