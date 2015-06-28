@@ -9,6 +9,12 @@ using System.Collections;
 
 public class BoardManager : MonoBehaviour
 {
+	[SerializeField]
+	Text start_level_text = null;
+	[SerializeField]
+	int time_per_start_screen = 2;
+	[SerializeField]
+	GameObject level_panel = null;
     [SerializeField]
     GameObject popup_menu = null;
     [SerializeField]
@@ -30,6 +36,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField]
     Text TimeLeftText = null;
 
+	bool is_started = false;
     public float time_per_level = 6f;
     public int columns = 4;
     public int rows = 4;
@@ -190,30 +197,36 @@ public class BoardManager : MonoBehaviour
         time_per_level--;
     }
 
+	void DecreaseStartScreen()
+	{
+		time_per_start_screen--;
+	}
+
     void InItBoard()
     {
-        for (int i = 0; i < columns; i++)
-        {
-            board_items.Add(new List<GameObject>());
-            for (int j = 0; j < rows; j++)
-            {
-                GameObject tmp = GetRandomTile();
-                tmp.transform.position = new Vector3(size * i, size * j, 0f);
-                tmp.GetComponent<TileProperties>().row = j;
-                tmp.GetComponent<TileProperties>().column = i;
-                board_items[i].Add(tmp);
-            }
-            score_text.text = "Score: 0";
+        for (int i = 0; i < columns; i++) 
+		{
+			board_items.Add (new List<GameObject> ());
+			for (int j = 0; j < rows; j++) {
+				GameObject tmp = GetRandomTile ();
+				tmp.transform.position = new Vector3 (size * i, size * j, 0f);
+				tmp.GetComponent<TileProperties> ().row = j;
+				tmp.GetComponent<TileProperties> ().column = i;
+				board_items [i].Add (tmp);
+			}
+		}
+			start_level_text.text = "Level "+GameObject.Find("GameManager").GetComponent<GameManager>().level;
+
+			score_text.text = "Score: 0";
             level_left_text.text = "Points left: " + GameObject.Find("GameManager").GetComponent<GameManager>().PointsLeft().ToString();
             total_score.text = "Total score: " + GameObject.Find("GameManager").GetComponent<GameManager>().total_points;
             SetBombCount(GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges);
-        }
     }
 
     void Start()
     {
         GameObject.Find("GameManager").GetComponent<GameManager>().is_active = true;
-        InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
+		InvokeRepeating ("DecreaseStartScreen", 1.0f, 1.0f);
         PopupExit.onClick.AddListener(() => { ExitGame(); });
         PopupRestart.onClick.AddListener(() => { RestartGame(); });
         exit_button.onClick.AddListener(() => { ExitGame(); });
@@ -580,8 +593,17 @@ public class BoardManager : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
+
+
     void Update()
     {
+		if (time_per_start_screen==0) 
+		{
+			InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
+			level_panel.SetActive(false);
+			time_per_start_screen=-1;
+			is_started=true;
+		}
         // why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
         Sprite bomb_button_sprite = bomb_button.GetComponent<SpriteRenderer>().sprite;
         if ((bomb_button_sprite == passive_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges > 0))
