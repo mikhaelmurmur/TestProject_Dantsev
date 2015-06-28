@@ -13,7 +13,7 @@ public class StartGame : MonoBehaviour {
     {
         start_button.onClick.AddListener(() => { StartLevel(); });
         exit_button.onClick.AddListener(() => { ExitGame(); });
-        Screen.SetResolution(640, 400, false);
+        Screen.SetResolution(800, 400, false);
 	}
 	
     void ExitGame()
