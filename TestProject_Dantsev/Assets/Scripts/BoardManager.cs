@@ -70,6 +70,7 @@ public class BoardManager : MonoBehaviour
         {
             return board_items[col][row];
         }
+		// you don't need else :)
         else
             return null;
     }
@@ -97,6 +98,9 @@ public class BoardManager : MonoBehaviour
             }
                 //list_to_destroy.Add(board_items[col][row]);
                 // It really looks horrible :)
+
+			// do not commit commented code
+
                 #region comment
                 //#region
                 //if ((col > 0) && (col < columns - 1))
@@ -255,6 +259,7 @@ public class BoardManager : MonoBehaviour
 
     List<GameObject> GetListToDestroy(GameObject tile_clicked, out bool to_destroy)//returns list of tiles to destroy and the
     {
+		// use cammel case toDestroy
         to_destroy = false;
         int start_row = tile_clicked.GetComponent<TileProperties>().row;
         int start_col = tile_clicked.GetComponent<TileProperties>().column;
@@ -262,7 +267,9 @@ public class BoardManager : MonoBehaviour
         List<GameObject> go_to_check = new List<GameObject>();
         go_to_check.Add(tile_clicked);
         GetTilesToDestroy(start_col, start_row, list_to_destroy, tile_clicked);
-        //int col, row;
+        //int col,row;
+
+		// do not commit commented code
 
         #region
         //while (go_to_check.Count > 0)
@@ -491,6 +498,7 @@ public class BoardManager : MonoBehaviour
 
     void Movement()
     {
+		// name columnIndex, rowIndex instead of i,j
         for (int i = 0; i < columns; i++)
         {
             for (int j = 0; j < rows - 1; j++)
@@ -499,7 +507,7 @@ public class BoardManager : MonoBehaviour
                 {
                     int result_row = j;
                     bool place_found = false;
-
+					// comment here
                     while ((result_row < rows) && (!place_found))
                     {
                         if (board_items[i][result_row] == null)
@@ -597,15 +605,16 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
-		if (time_per_start_screen==0) 
+		if (time_per_start_screen == 0) 
 		{
 			InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
 			level_panel.SetActive(false);
-			time_per_start_screen=-1;
-			is_started=true;
+			time_per_start_screen = -1;
+			is_started = true;
 		}
         // why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
         Sprite bomb_button_sprite = bomb_button.GetComponent<SpriteRenderer>().sprite;
+		// comment here
         if ((bomb_button_sprite == passive_bomb) && (GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges > 0))
         {
             bomb_button.GetComponent<SpriteRenderer>().sprite = active_bomb;

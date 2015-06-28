@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviour
     }
 
     void Update()
-    {
-        if(total_points-total_bombs*points_per_bomb>=points_per_bomb)
+    {	
+		// spaces between operators
+        if(total_points - total_bombs * points_per_bomb >= points_per_bomb)
         {
             total_bombs++;
             bomb_charges++;

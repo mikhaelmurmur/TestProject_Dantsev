@@ -12,7 +12,6 @@ public class BombScript : MonoBehaviour
 
     public bool ActiveBomb()
     {
-        
         return bomb_obj != null;
     }
 
@@ -58,6 +57,7 @@ public class BombScript : MonoBehaviour
             GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges--;
             GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges);
         }
+		// delete
         if (bomb_obj != null)
         {
 
