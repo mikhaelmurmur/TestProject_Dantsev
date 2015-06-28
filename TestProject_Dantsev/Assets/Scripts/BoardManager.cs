@@ -90,6 +90,7 @@ public class BoardManager : MonoBehaviour
                 for (int j = 0; j < 3; j++)
                 {
                     GameObject to_destroy = GetObjectByIndex(col - 1 + i, row - 1 + j);
+					// maybe    if (GetObjectByIndex(col - 1 + i, row - 1 + j)) ?  without line above?
                     if(to_destroy)
                     {
                         list_to_destroy.Add(to_destroy);
@@ -564,6 +565,8 @@ public class BoardManager : MonoBehaviour
             sum = Convert.ToInt32(Math.Round(sum * 1.3));
             count--;
         }
+		// cache! GameObject.Find("GameManager").GetComponent<GameManager>()
+		// or event assing somewhere onstart, you are using it 18 times in this file
         GameObject.Find("GameManager").GetComponent<GameManager>().points += sum;
         GameObject.Find("GameManager").GetComponent<GameManager>().total_points += sum;
         score_text.text = "Score: " + GameObject.Find("GameManager").GetComponent<GameManager>().points.ToString();
