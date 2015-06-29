@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class TileClick : MonoBehaviour 
+public class TileClick : MonoBehaviour
 {
 
     void OnMouseOver()
@@ -10,26 +10,25 @@ public class TileClick : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-				// assing BoardManager here, you are using it in any case
+                // assing BoardManager here, you are using it in any case
+
+                BoardManager boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
                 if (!GameObject.Find("bomb").GetComponent<BombScript>().ActiveBomb())
                 {
-                    BoardManager bm = GameObject.Find("BoardManager").GetComponent<BoardManager>();
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayClick();
-					// why? :)
-                    if (!bm.DestroyTiles(this.gameObject))
-                    {
+                    // why? :)
+                    boardManager.DestroyTiles(this.gameObject);
 
-                    }
 
                 }
                 else
                 {
-                    GameObject.Find("BoardManager").GetComponent<BoardManager>().
-                        DestroyByBomb(gameObject.GetComponent<TileProperties>().column,
+                    boardManager.DestroyByBomb
+                        (gameObject.GetComponent<TileProperties>().column,
                         gameObject.GetComponent<TileProperties>().row);
                     GameObject.Find("bomb").GetComponent<BombScript>().DestroyBomb();
                 }
-                //if no destroy then some effect takes place
+
             }
         }
     }
