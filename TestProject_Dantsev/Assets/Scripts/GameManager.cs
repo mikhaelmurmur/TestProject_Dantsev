@@ -3,19 +3,19 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public bool is_active = true;
+    public bool isActive = true;
     public int points = 0;
     public int level = 1;
-    public int bomb_charges = 0;
-    public int total_points = 0;
-    public int total_bombs = 0;
+    public int bombCharges = 0;
+    public int totalPoints = 0;
+    public int totalBombs = 0;
     [SerializeField]
-    int points_per_bomb = 500;
+    int pointsPerBomb = 500;
     [SerializeField]
-    int points_per_first_level = 300;
-    public int point_for_three = 100;
+    int pointsPerFirstLevel = 300;
+    public int pointForThree = 100;
     [SerializeField]
-    int level_addition = 300;
+    int levelAddition = 300;
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -23,30 +23,30 @@ public class GameManager : MonoBehaviour
 
     public int PointsLeft()
     {
-        return points_per_first_level + (level - 1) * (level_addition) - points;
+        return pointsPerFirstLevel + (level - 1) * (levelAddition) - points;
     }
 
     public void Restart()
     {
         level = 1;
         points = 0;
-        bomb_charges = 0;
-        total_points = 0;
-        total_bombs = 0;
-        is_active = true;
+        bombCharges = 0;
+        totalPoints = 0;
+        totalBombs = 0;
+        isActive = true;
         Application.LoadLevel("LevelScene");
     }
 
     void Update()
     {
         // spaces between operators
-        if (total_points - total_bombs * points_per_bomb >= points_per_bomb)
+        if (totalPoints - totalBombs * pointsPerBomb >= pointsPerBomb)
         {
-            total_bombs++;
-            bomb_charges++;
-            GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(bomb_charges);
+            totalBombs++;
+            bombCharges++;
+            GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(bombCharges);
         }
-        if (points >= points_per_first_level+ (level-1)*(level_addition))
+        if (points >= pointsPerFirstLevel+ (level-1)*(levelAddition))
         {
             level++;
             points = 0;

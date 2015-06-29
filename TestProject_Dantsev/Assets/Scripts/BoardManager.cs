@@ -10,56 +10,56 @@ using System.Collections;
 public class BoardManager : MonoBehaviour
 {
     [SerializeField]
-    Text start_level_text = null;
+    Text startLevelText = null;
     [SerializeField]
-    int time_per_start_screen = 2;
+    int timePerStartScreen = 2;
     [SerializeField]
-    GameObject level_panel = null;
+    GameObject levelPanel = null;
     [SerializeField]
-    GameObject popup_menu = null;
+    GameObject popupMenu = null;
     [SerializeField]
-    Text score_text = null;
+    Text scoreText = null;
     [SerializeField]
-    Text total_score = null;
+    Text totalScore = null;
     [SerializeField]
-    Text bomb_count = null;
+    Text bombCount = null;
     [SerializeField]
-    Text level_text = null;
+    Text levelText = null;
     [SerializeField]
-    Text level_left_text = null;
+    Text levelLeftText = null;
     [SerializeField]
-    Button exit_button = null;
+    Button exitButton = null;
     [SerializeField]
-    Button PopupExit = null;
+    Button popupExit = null;
     [SerializeField]
-    Button PopupRestart = null;
+    Button popupRestart = null;
     [SerializeField]
-    Text TimeLeftText = null;
+    Text timeLeftText = null;
     GameManager gameManager = null;
-    bool is_started = false;
-    public float time_per_level = 6f;
+    bool isStarted = false;
+    public float timePerLevel = 6f;
     public int columns = 4;
     public int rows = 4;
     public float size = 4f;
-    int number_of_animals = 3;
-    private Transform board_holder;
-    public List<GameObject> list_of_tiles = new List<GameObject>();
-    List<List<GameObject>> board_items = new List<List<GameObject>>();
+    int numberOfAnimals = 3;
+    private Transform boardHolder;
+    public List<GameObject> listOfTiles = new List<GameObject>();
+    List<List<GameObject>> boardItems = new List<List<GameObject>>();
     [SerializeField]
-    Sprite passive_bomb = null;
+    Sprite passiveBomb = null;
     [SerializeField]
-    Sprite active_bomb = null;
+    Sprite activeBomb = null;
     [SerializeField]
-    GameObject bomb_button = null;
+    GameObject bombButton = null;
     [SerializeField]
-    int number_of_animals_to_use = 3;
+    int numberOfAnimalsToUse = 3;
 
 
     GameObject GetRandomTile()
     {
-        number_of_animals = 3 + (gameManager.level - 1);
-        int random = Random.Range(0, Math.Min(number_of_animals, number_of_animals_to_use));
-        GameObject result = Instantiate(list_of_tiles[random]);
+        numberOfAnimals = 3 + (gameManager.level - 1);
+        int random = Random.Range(0, Math.Min(numberOfAnimals, numberOfAnimalsToUse));
+        GameObject result = Instantiate(listOfTiles[random]);
         return result;
     }
 
@@ -67,7 +67,7 @@ public class BoardManager : MonoBehaviour
     {
         if ((col > -1) && (col < columns) && (row > -1) && (row < rows))
         {
-            return board_items[col][row];
+            return boardItems[col][row];
         }
         // you don't need else :)
         return null;
@@ -77,7 +77,7 @@ public class BoardManager : MonoBehaviour
     public bool DestroyByBomb(int col, int row)//destroy nearby tiles
     {
         bool result = false;
-        List<GameObject> list_to_destroy = new List<GameObject>();
+        List<GameObject> lisToDestroy = new List<GameObject>();
         if ((col > -1) && (col < columns) && (row > -1) && (row < rows))
         {
             Debug.Log(col.ToString());
@@ -90,7 +90,7 @@ public class BoardManager : MonoBehaviour
                     // maybe    if (GetObjectByIndex(col - 1 + i, row - 1 + j)) ?  without line above?
                     if (GetObjectByIndex(col - 1 + i, row - 1 + j))
                     {
-                        list_to_destroy.Add(GetObjectByIndex(col - 1 + i, row - 1 + j));
+                        lisToDestroy.Add(GetObjectByIndex(col - 1 + i, row - 1 + j));
                     }
                 }
             }
@@ -99,10 +99,10 @@ public class BoardManager : MonoBehaviour
             // do not commit commented code
 
 
-            Destroy(list_to_destroy);
+            Destroy(lisToDestroy);
             Movement();
             FillUpWithRandom();
-            AssignPoint(list_to_destroy.Count);
+            AssignPoint(lisToDestroy.Count);
             result = true;
         }
         return result;
@@ -120,46 +120,46 @@ public class BoardManager : MonoBehaviour
 
     void DecreaseTime()
     {
-        time_per_level--;
+        timePerLevel--;
     }
 
     void DecreaseStartScreen()
     {
-        time_per_start_screen--;
+        timePerStartScreen--;
     }
 
     void InItBoard()
     {
-        for (int i = 0; i < columns; i++)
+        for (int columnIndex = 0; columnIndex < columns; columnIndex++)
         {
-            board_items.Add(new List<GameObject>());
-            for (int j = 0; j < rows; j++)
+            boardItems.Add(new List<GameObject>());
+            for (int rowIndex = 0; rowIndex < rows; rowIndex++)
             {
                 GameObject tmp = GetRandomTile();
-                tmp.transform.position = new Vector3(size * i, size * j, 0f);
-                tmp.GetComponent<TileProperties>().row = j;
-                tmp.GetComponent<TileProperties>().column = i;
-                board_items[i].Add(tmp);
+                tmp.transform.position = new Vector3(size * columnIndex, size * rowIndex, 0f);
+                tmp.GetComponent<TileProperties>().row = rowIndex;
+                tmp.GetComponent<TileProperties>().column = columnIndex;
+                boardItems[columnIndex].Add(tmp);
             }
         }
-        start_level_text.text = "Level " + gameManager.level;
+        startLevelText.text = "Level " + gameManager.level;
 
-        score_text.text = "Score: 0";
-        level_left_text.text = "Points left: " + gameManager.PointsLeft().ToString();
-        total_score.text = "Total score: " + gameManager.total_points;
-        SetBombCount(gameManager.bomb_charges);
+        scoreText.text = "Score: 0";
+        levelLeftText.text = "Points left: " + gameManager.PointsLeft().ToString();
+        totalScore.text = "Total score: " + gameManager.totalPoints;
+        SetBombCount(gameManager.bombCharges);
     }
 
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.is_active = true;
+        gameManager.isActive = true;
         InvokeRepeating("DecreaseStartScreen", 1.0f, 1.0f);
-        PopupExit.onClick.AddListener(() => { ExitGame(); });
-        PopupRestart.onClick.AddListener(() => { RestartGame(); });
-        exit_button.onClick.AddListener(() => { ExitGame(); });
-        time_per_level = Math.Max(gameManager.level - 3, 0) + time_per_level;
-        level_text.text = "Level: " + gameManager.level;
+        popupExit.onClick.AddListener(() => { ExitGame(); });
+        popupRestart.onClick.AddListener(() => { RestartGame(); });
+        exitButton.onClick.AddListener(() => { ExitGame(); });
+        timePerLevel = Math.Max(gameManager.level - 3, 0) + timePerLevel;
+        levelText.text = "Level: " + gameManager.level;
 
 
         // why not a separate function ? 
@@ -168,29 +168,29 @@ public class BoardManager : MonoBehaviour
 
 
 
-    void GetTilesToDestroy(int col, int row, List<GameObject> list_to_fill, GameObject tile_clicked)
+    void GetTilesToDestroy(int col, int row, List<GameObject> listToFill, GameObject tileClicked)
     {
         if ((col > -1) && (col < columns) && (row > -1) && (row < rows)
-            && (tile_clicked.name == board_items[col][row].name) && (!list_to_fill.Contains(board_items[col][row])))
+            && (tileClicked.name == boardItems[col][row].name) && (!listToFill.Contains(boardItems[col][row])))
         {
-            list_to_fill.Add(board_items[col][row]);
-            GetTilesToDestroy(col + 1, row, list_to_fill, tile_clicked);
-            GetTilesToDestroy(col - 1, row, list_to_fill, tile_clicked);
-            GetTilesToDestroy(col, row - 1, list_to_fill, tile_clicked);
-            GetTilesToDestroy(col, row + 1, list_to_fill, tile_clicked);
+            listToFill.Add(boardItems[col][row]);
+            GetTilesToDestroy(col + 1, row, listToFill, tileClicked);
+            GetTilesToDestroy(col - 1, row, listToFill, tileClicked);
+            GetTilesToDestroy(col, row - 1, listToFill, tileClicked);
+            GetTilesToDestroy(col, row + 1, listToFill, tileClicked);
         }
     }
 
-    List<GameObject> GetListToDestroy(GameObject tile_clicked, out bool toDestroy)//returns list of tiles to destroy and the
+    List<GameObject> GetListToDestroy(GameObject tileClicked, out bool toDestroy)//returns list of tiles to destroy and the
     {
         // use cammel case toDestroy
         toDestroy = false;
-        int start_row = tile_clicked.GetComponent<TileProperties>().row;
-        int start_col = tile_clicked.GetComponent<TileProperties>().column;
+        int start_row = tileClicked.GetComponent<TileProperties>().row;
+        int start_col = tileClicked.GetComponent<TileProperties>().column;
         List<GameObject> list_to_destroy = new List<GameObject>();
         List<GameObject> go_to_check = new List<GameObject>();
-        go_to_check.Add(tile_clicked);
-        GetTilesToDestroy(start_col, start_row, list_to_destroy, tile_clicked);
+        go_to_check.Add(tileClicked);
+        GetTilesToDestroy(start_col, start_row, list_to_destroy, tileClicked);
 
         // do not commit commented code
 
@@ -200,20 +200,20 @@ public class BoardManager : MonoBehaviour
 
     public void SetBombCount(int count)
     {
-        bomb_count.text = "Bombs: " + count.ToString();
+        bombCount.text = "Bombs: " + count.ToString();
     }
 
-    void Destroy(List<GameObject> lst_to_destroy)
+    void Destroy(List<GameObject> lstToDestroy)
     {
         int col, row;
-        foreach (GameObject tile in lst_to_destroy)
+        foreach (GameObject tile in lstToDestroy)
         {
             col = tile.GetComponent<TileProperties>().column;
             row = tile.GetComponent<TileProperties>().row;
-            board_items[col][row] = null;
+            boardItems[col][row] = null;
             tile.transform.position.Set(col, row, 1);
             tile.transform.DOMoveY(-40, 0.5f);
-            
+
             //GameObject.Destroy(tile);
         }
     }
@@ -224,7 +224,7 @@ public class BoardManager : MonoBehaviour
         {
             for (int rowIndex = 0; rowIndex < rows - 1; rowIndex++)
             {
-                if (board_items[columnIndex][rowIndex] == null)
+                if (boardItems[columnIndex][rowIndex] == null)
                 {
                     int result_row = rowIndex;
                     bool place_found = false;
@@ -232,7 +232,7 @@ public class BoardManager : MonoBehaviour
                     //for each empty space we search first element which is situated above our empty space
                     while ((result_row < rows) && (!place_found))
                     {
-                        if (board_items[columnIndex][result_row] == null)
+                        if (boardItems[columnIndex][result_row] == null)
                         {
                             result_row++;
                         }
@@ -244,10 +244,10 @@ public class BoardManager : MonoBehaviour
 
                     if (place_found)//if we have found a tile, than move it down
                     {
-                        board_items[columnIndex][result_row].transform.DOMove(new Vector3(size * columnIndex, size * rowIndex, 0f), 0.5f);
-                        board_items[columnIndex][result_row].GetComponent<TileProperties>().row = rowIndex;
-                        board_items[columnIndex][rowIndex] = board_items[columnIndex][result_row];
-                        board_items[columnIndex][result_row] = null;
+                        boardItems[columnIndex][result_row].transform.DOMove(new Vector3(size * columnIndex, size * rowIndex, 0f), 0.5f);
+                        boardItems[columnIndex][result_row].GetComponent<TileProperties>().row = rowIndex;
+                        boardItems[columnIndex][rowIndex] = boardItems[columnIndex][result_row];
+                        boardItems[columnIndex][result_row] = null;
                     }
 
 
@@ -263,10 +263,10 @@ public class BoardManager : MonoBehaviour
             for (int rowIndex = 0; rowIndex < rows; rowIndex++)
             {
                 // why not cache a variable board_items[i][j]? 
-                GameObject tile = board_items[columnIndex][rowIndex];
+                GameObject tile = boardItems[columnIndex][rowIndex];
                 if (tile == null)
                 {
-                    board_items[columnIndex][rowIndex] = tile = GetRandomTile();
+                    boardItems[columnIndex][rowIndex] = tile = GetRandomTile();
 
                     tile.transform.position = new Vector3(size * columnIndex, size * columns, 0f);
                     tile.transform.DOMove(new Vector3(size * columnIndex, size * rowIndex, 0f), 0.5f);
@@ -279,7 +279,7 @@ public class BoardManager : MonoBehaviour
 
     void AssignPoint(int count)
     {
-        int sum = gameManager.point_for_three;
+        int sum = gameManager.pointForThree;
         count -= 3;
         while (count > 0)
         {
@@ -289,35 +289,35 @@ public class BoardManager : MonoBehaviour
         // cache! GameObject.Find("GameManager").GetComponent<GameManager>()
         // or event assing somewhere onstart, you are using it 18 times in this file
         gameManager.points += sum;
-        gameManager.total_points += sum;
-        score_text.text = "Score: " + gameManager.points.ToString();
-        total_score.text = "Total score: " + gameManager.total_points;
-        level_left_text.text = "Points left: " + gameManager.PointsLeft().ToString();
+        gameManager.totalPoints += sum;
+        scoreText.text = "Score: " + gameManager.points.ToString();
+        totalScore.text = "Total score: " + gameManager.totalPoints;
+        levelLeftText.text = "Points left: " + gameManager.PointsLeft().ToString();
     }
 
-    public bool DestroyTiles(GameObject clicked_tile) //returns true whether something is destroyed, or false if there is nothing to destroy
+    public bool DestroyTiles(GameObject clickedTile) //returns true whether something is destroyed, or false if there is nothing to destroy
     {
-        bool is_destroyed = false;
-        List<GameObject> to_destroy = GetListToDestroy(clicked_tile, out is_destroyed);
-        if (is_destroyed)
+        bool isDestroyed = false;
+        List<GameObject> toDestroy = GetListToDestroy(clickedTile, out isDestroyed);
+        if (isDestroyed)
         {
             GameObject.Find("AudioManager").GetComponent<AudioManager>().PlaySuccess();
-            AssignPoint(to_destroy.Count);
-            Destroy(to_destroy);
+            AssignPoint(toDestroy.Count);
+            Destroy(toDestroy);
             Movement();
             FillUpWithRandom();
         }
         else
         {
-            foreach (GameObject tile in to_destroy)
+            foreach (GameObject tile in toDestroy)
             {
-                Sequence change_color = DOTween.Sequence();
-                change_color.Append(tile.GetComponent<SpriteRenderer>().material.DOColor(Color.gray, 0.5f).SetLoops(1));
-                change_color.Append(tile.GetComponent<SpriteRenderer>().material.DOColor(Color.white, 0.5f).SetLoops(1));
-                change_color.Play();
+                Sequence changeColor = DOTween.Sequence();
+                changeColor.Append(tile.GetComponent<SpriteRenderer>().material.DOColor(Color.gray, 0.5f).SetLoops(1));
+                changeColor.Append(tile.GetComponent<SpriteRenderer>().material.DOColor(Color.white, 0.5f).SetLoops(1));
+                changeColor.Play();
             }
         }
-        return is_destroyed;
+        return isDestroyed;
     }
 
     IEnumerator ChangeColorWait()
@@ -329,36 +329,36 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
-        if (time_per_start_screen == 0)
+        if (timePerStartScreen == 0)
         {
             InvokeRepeating("DecreaseTime", 1.0f, 1.0f);
-            level_panel.SetActive(false);
-            time_per_start_screen = -1;
-            is_started = true;
+            levelPanel.SetActive(false);
+            timePerStartScreen = -1;
+            isStarted = true;
         }
         // why not cache bomb_button.GetComponent<SpriteRenderer>().sprite ? into a variable
-        Sprite bomb_button_sprite = bomb_button.GetComponent<SpriteRenderer>().sprite;
+        Sprite bombButtonSprite = bombButton.GetComponent<SpriteRenderer>().sprite;
         // comment here
         // if there are bomb charges, but it has not been shown via active bomb sprite
         // then we change sprite to an active one
-        if ((bomb_button_sprite == passive_bomb) && (gameManager.bomb_charges > 0))
+        if ((bombButtonSprite == passiveBomb) && (gameManager.bombCharges > 0))
         {
-            bomb_button.GetComponent<SpriteRenderer>().sprite = active_bomb;
+            bombButton.GetComponent<SpriteRenderer>().sprite = activeBomb;
         }
         // if it's been shown that bomb is active, but there are no charges 
         // then deactivate bomb
-        if ((bomb_button_sprite == active_bomb) && (gameManager.bomb_charges == 0))
+        if ((bombButtonSprite == activeBomb) && (gameManager.bombCharges == 0))
         {
-            bomb_button.GetComponent<SpriteRenderer>().sprite = passive_bomb;
+            bombButton.GetComponent<SpriteRenderer>().sprite = passiveBomb;
         }
-        if (time_per_level > 0)
+        if (timePerLevel > 0)
         {
-            TimeLeftText.text = "Time left: " + time_per_level.ToString();
+            timeLeftText.text = "Time left: " + timePerLevel.ToString();
         }
         else
         {
-            gameManager.is_active = false;
-            popup_menu.SetActive(true);
+            gameManager.isActive = false;
+            popupMenu.SetActive(true);
         }
     }
 }

@@ -7,34 +7,34 @@ public class BombScript : MonoBehaviour
 
     [SerializeField]
     GameObject bomb = null;
-    GameObject bomb_obj = null;
+    GameObject bombObj = null;
     
 
     public bool ActiveBomb()
     {
-        return bomb_obj != null;
+        return bombObj != null;
     }
 
     void Update()
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().is_active)
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().isActive)
         {
-            if (bomb_obj != null)
+            if (bombObj != null)
             {
-                bomb_obj.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                bomb_obj.transform.position = new Vector3(bomb_obj.transform.position.x + 1, bomb_obj.transform.position.y + 1, -1);
+                bombObj.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                bombObj.transform.position = new Vector3(bombObj.transform.position.x + 1, bombObj.transform.position.y + 1, -1);
                 if (Input.GetMouseButton(0))
                 {
-                    Debug.Log(bomb_obj.transform.position.x);
-                    Debug.Log(bomb_obj.transform.position.y);
+                    Debug.Log(bombObj.transform.position.x);
+                    Debug.Log(bombObj.transform.position.y);
                     float size = GameObject.Find("BoardManager").GetComponent<BoardManager>().size;
-                    int col = Convert.ToInt32((bomb_obj.transform.position.x) / size);
-                    int row = Convert.ToInt32((bomb_obj.transform.position.y) / size);
+                    int col = Convert.ToInt32((bombObj.transform.position.x) / size);
+                    int row = Convert.ToInt32((bombObj.transform.position.y) / size);
                     if (GameObject.Find("BoardManager").GetComponent<BoardManager>().DestroyByBomb(col, row))
                     {
                         GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayBomb();
-                        GameObject.Destroy(bomb_obj);
-                        bomb_obj = null;
+                        GameObject.Destroy(bombObj);
+                        bombObj = null;
                     }
                 }
             }
@@ -43,19 +43,19 @@ public class BombScript : MonoBehaviour
 
     public void DestroyBomb()
     {
-        if(bomb_obj!=null)
+        if(bombObj!=null)
         {
-            GameObject.Destroy(bomb_obj);
-            bomb_obj = null;
+            GameObject.Destroy(bombObj);
+            bombObj = null;
         }
     }
     void OnMouseOver()
     {
-        if (Input.GetMouseButton(0) && (bomb_obj == null)&& GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges>0)
+        if (Input.GetMouseButton(0) && (bombObj == null)&& GameObject.Find("GameManager").GetComponent<GameManager>().bombCharges>0)
         {
-            bomb_obj = GameObject.Instantiate(bomb);
-            GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges--;
-            GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(GameObject.Find("GameManager").GetComponent<GameManager>().bomb_charges);
+            bombObj = GameObject.Instantiate(bomb);
+            GameObject.Find("GameManager").GetComponent<GameManager>().bombCharges--;
+            GameObject.Find("BoardManager").GetComponent<BoardManager>().SetBombCount(GameObject.Find("GameManager").GetComponent<GameManager>().bombCharges);
         }
 		
     }

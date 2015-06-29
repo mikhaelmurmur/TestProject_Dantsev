@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class StartGame : MonoBehaviour {
 
     [SerializeField]
-    Button start_button = null;
+    Button startButton = null;
     [SerializeField]
-    Button exit_button = null;
+    Button exitButton = null;
 
 	void Start ()
     {
-        start_button.onClick.AddListener(() => { StartLevel(); });
-        exit_button.onClick.AddListener(() => { ExitGame(); });
+        startButton.onClick.AddListener(() => { StartLevel(); });
+        exitButton.onClick.AddListener(() => { ExitGame(); });
         Screen.SetResolution(800, 400, false);
 	}
 	

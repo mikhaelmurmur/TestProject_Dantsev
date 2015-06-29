@@ -4,17 +4,17 @@ using System.Collections;
 public class AudioManager : MonoBehaviour 
 {
     [SerializeField]
-    AudioClip clicksound = null;
+    AudioClip clickSound = null;
     [SerializeField]
     AudioClip winning = null;
     [SerializeField]
-    AudioSource sound_player = null;
+    AudioSource soundPlayer = null;
     [SerializeField]
-    AudioSource back_music_player = null;
+    AudioSource backMusicPlayer = null;
     [SerializeField]
-    AudioClip normal_music = null;
+    AudioClip normalMusic = null;
     [SerializeField]
-    AudioClip bomb_music = null;
+    AudioClip bombMusic = null;
 	
 	void Start () 
     {
@@ -23,23 +23,23 @@ public class AudioManager : MonoBehaviour
 	
     public void PlayClick()
     {
-        back_music_player.Pause();
-        sound_player.PlayOneShot(clicksound);
-        back_music_player.Play();
+        backMusicPlayer.Pause();
+        soundPlayer.PlayOneShot(clickSound);
+        backMusicPlayer.Play();
     }
 
     public void PlaySuccess()
     {
-        back_music_player.Pause();
-        sound_player.PlayOneShot(winning);
-        back_music_player.Play();
+        backMusicPlayer.Pause();
+        soundPlayer.PlayOneShot(winning);
+        backMusicPlayer.Play();
     }
 
     public void PlayBomb()
     {
-        back_music_player.Pause();
-        sound_player.PlayOneShot(bomb_music);
-        back_music_player.Play();
+        backMusicPlayer.Pause();
+        soundPlayer.PlayOneShot(bombMusic);
+        backMusicPlayer.Play();
     }
 
 }

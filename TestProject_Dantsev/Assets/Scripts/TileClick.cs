@@ -6,7 +6,7 @@ public class TileClick : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().is_active)
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().isActive)
         {
             if (Input.GetMouseButton(0))
             {
