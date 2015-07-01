@@ -258,6 +258,7 @@ public class BoardManager : MonoBehaviour
 
     void FillUpWithRandom()
     {
+        Sequence sequence = DOTween.Sequence();
         for (int columnIndex = 0; columnIndex < columns; columnIndex++)
         {
             for (int rowIndex = 0; rowIndex < rows; rowIndex++)
@@ -268,13 +269,14 @@ public class BoardManager : MonoBehaviour
                 {
                     boardItems[columnIndex][rowIndex] = tile = GetRandomTile();
 
-                    tile.transform.position = new Vector3(size * columnIndex, size * columns, 0f);
-                    tile.transform.DOMove(new Vector3(size * columnIndex, size * rowIndex, 0f), 0.5f);
+                    tile.transform.position = new Vector3(size * columnIndex, size * rows, 0f);
+                    sequence.Append(tile.transform.DOMove(new Vector3(size * columnIndex, size * rowIndex, 0f), 0.1f));
                     tile.GetComponent<TileProperties>().row = rowIndex;
                     tile.GetComponent<TileProperties>().column = columnIndex;
                 }
             }
         }
+        sequence.Play();
     }
 
     void AssignPoint(int count)
